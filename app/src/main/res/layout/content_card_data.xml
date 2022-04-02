@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="?attr/actionBarSize">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/enter_details_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/cardNumberLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/card_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/cardNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardNumberLabel" />
+
+        <TextView
+            android:id="@+id/cardDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/fields_margin"
+            android:text="@string/card_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardNumber" />
+
+        <EditText
+            android:id="@+id/cardDate"
+            android:layout_width="@dimen/card_date_width"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardDateLabel" />
+
+        <TextView
+            android:id="@+id/cardCVCLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/enter_details_margin"
+            android:paddingTop="@dimen/fields_margin"
+            android:text="@string/card_cvc"
+            app:layout_constraintStart_toEndOf="@+id/cardDate"
+            app:layout_constraintTop_toBottomOf="@+id/cardNumber" />
+
+        <EditText
+            android:id="@+id/cardCVC"
+            android:layout_width="@dimen/card_date_width"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/enter_details_margin"
+            android:importantForAutofill="no"
+            app:layout_constraintStart_toEndOf="@+id/cardDate"
+            app:layout_constraintTop_toBottomOf="@+id/cardCVCLabel" />
+
+        <TextView
+            android:id="@+id/cardNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/fields_margin"
+            android:text="@string/card_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardDate" />
+
+        <EditText
+            android:id="@+id/cardName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardNameLabel" />
+
+        <TextView
+            android:id="@+id/cardTypeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/fields_margin"
+            android:text="@string/card_type"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardName" />
+
+        <EditText
+            android:id="@+id/cardType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardTypeLabel" />
+
+        <Button
+            android:id="@+id/processOtherCreditCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fields_margin"
+            android:text="@string/process_new_credit_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardType" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

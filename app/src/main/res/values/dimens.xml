@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_size">28sp</dimen>
+    <dimen name="subtitle_size">18sp</dimen>
+    <dimen name="tooltip_panel_margin">40dp</dimen>
+    <dimen name="subtitle_margin">5dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
+    <dimen name="enter_details_margin">40dp</dimen>
+    <dimen name="fields_margin">30dp</dimen>
+    <dimen name="card_date_width">60dp</dimen>
+</resources>
