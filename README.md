@@ -42,11 +42,11 @@ const val URL = "XXX" // replace XXX with your assigned Endpoint URL
 
 ### Other platforms <a name="other_platforms"></a>
 You can find these examples for Lens iOS
-- [Long Receipts](https://github.com/veryfi/veryfi-lens-long-receipts-ios-demo).
-- [Receipts](https://github.com/veryfi/veryfi-lens-receipts-ios-demo).
-- [Credit Cards](https://github.com/veryfi/veryfi-lens-credit-cards-ios-demo).
-- [Business Cards](https://github.com/veryfi/veryfi-lens-business-cards-ios-demo).
-- [Checks](https://github.com/veryfi/veryfi-lens-checks-ios-demo).
+- [Long Receipts](https://github.com/veryfi/veryfi-lens-long-receipts-ios-demo)
+- [Receipts](https://github.com/veryfi/veryfi-lens-receipts-ios-demo)
+- [Credit Cards](https://github.com/veryfi/veryfi-lens-credit-cards-ios-demo)
+- [Business Cards](https://github.com/veryfi/veryfi-lens-business-cards-ios-demo)
+- [Checks](https://github.com/veryfi/veryfi-lens-checks-ios-demo)
 
 We also support the following wrappers for hybrid frameworks:
 - [Cordova](https://hub.veryfi.com/lens/docs/cordova/)
