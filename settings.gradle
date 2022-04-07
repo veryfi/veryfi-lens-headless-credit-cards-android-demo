@@ -6,8 +6,8 @@ pluginManagement {
         maven {
             url "https://nexus.veryfi.com/repository/maven-releases/"
             credentials {
-                username = ''
-                password = ''
+                username = System.getenv("MAVEN_VERYFI_USERNAME")
+                password = System.getenv("MAVEN_VERYFI_PASSWORD")
             }
             authentication {
                 basic(BasicAuthentication)
@@ -23,8 +23,8 @@ dependencyResolutionManagement {
         maven {
             url "https://nexus.veryfi.com/repository/maven-releases/"
             credentials {
-                username = ''
-                password = ''
+                username = System.getenv("MAVEN_VERYFI_USERNAME")
+                password = System.getenv("MAVEN_VERYFI_PASSWORD")
             }
             authentication {
                 basic(BasicAuthentication)
