@@ -39,8 +39,8 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         viewBinding = ActivityCaptureCreditCardBinding.inflate(layoutInflater)
         val veryfiLensHeadlessCredentials = VeryfiLensHeadlessCredentials()
         val veryfiLensHeadlessSetting = VeryfiLensHeadlessSettings()
-        veryfiLensHeadlessCredentials.apiKey = Application.AUTH_API_K
-        veryfiLensHeadlessCredentials.username = Application.AUTH_USRNE
+        veryfiLensHeadlessCredentials.apiKey = Application.AUTH_API_KEY
+        veryfiLensHeadlessCredentials.username = Application.AUTH_USERNAME
         veryfiLensHeadlessCredentials.clientId = Application.CLIENT_ID
         VeryfiLensHeadless.configure(this.application, veryfiLensHeadlessCredentials, veryfiLensHeadlessSetting) {
         }
