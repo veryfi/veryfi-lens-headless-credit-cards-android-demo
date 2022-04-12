@@ -16,8 +16,8 @@ You can read further about Lens in Veryfi's dedicated page: https://www.veryfi.c
 4. [Get in contact with our team](#contact)
 
 ## Veryfi Lens Headless Credit Cards Android Example <a name="example"></a>
-You can find the demo project in this repository. You can also check the development documentation.
-- [Lens Headless for Credit Cards](LensHeadlessCreditCards.pdf)
+![headless_credit_card](https://user-images.githubusercontent.com/46335146/162976391-c6a7f42d-f407-4067-abf8-a5eaac5d95e3.gif)
+
 ## Other Lens Android Examples <a name="examples"></a>
 This is an example of how to use Veryfi Lens Headless Credit Cards in your app, you can find the developer documentation [here](LensHeadlessCreditCards.pdf).
 You can find five example projects, which are the five versions of Lens that we currently offer:
