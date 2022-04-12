@@ -1,3 +1,7 @@
+![Veryfi Logo](https://cdn.veryfi.com/logos/veryfi-logo-wide-github.png)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
 # Veryfi Lens
 Veryfi Lens is code (a framework) with UI for your mobile app to give it document capture superpowers in minutes.
 
