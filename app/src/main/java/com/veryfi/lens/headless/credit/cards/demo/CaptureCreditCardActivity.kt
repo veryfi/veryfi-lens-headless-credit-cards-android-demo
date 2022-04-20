@@ -4,8 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.Surface
 import android.view.View
@@ -23,8 +21,10 @@ import com.veryfi.lens.headless.creditcards.VeryfiLensHeadlessSettings
 import com.veryfi.lens.headless.creditcards.helpers.Frame
 import com.veryfi.lens.headless.creditcards.helpers.ScreenUtils
 import org.json.JSONObject
+import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.concurrent.schedule
 
 class CaptureCreditCardActivity : AppCompatActivity() {
 
@@ -181,9 +181,9 @@ class CaptureCreditCardActivity : AppCompatActivity() {
                 viewBinding.contentCameraProcessing.scanSubtitle.setTextColor(getColor(R.color.green))
             }
             viewBinding.contentCameraProcessing.flipImage.visibility = View.VISIBLE
-            Handler(Looper.getMainLooper()).postDelayed({
+            Timer("SettingUp", false).schedule(4000) {
                 VeryfiLensHeadless.reset()
-            }, 4000)
+            }
         }
     }
 
