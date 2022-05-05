@@ -152,7 +152,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
 
     private fun startAutoFocusing() {
         val autoFocusPoint = SurfaceOrientedMeteringPointFactory(1f, 1f)
-            .createPoint(.5f, .5f)
+            .createPoint(.2f, .5f)
         try {
             val autoFocusAction = FocusMeteringAction.Builder(
                 autoFocusPoint,
