@@ -25,10 +25,12 @@ import org.json.JSONObject
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.schedule
 
 class CaptureCreditCardActivity : AppCompatActivity() {
 
+    private var camera: Camera? = null
     private var flipExtractionRequired: Boolean = false
     private var cardData: CardData = CardData()
     private var cameraProvider: ProcessCameraProvider? = null
@@ -43,7 +45,11 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         veryfiLensHeadlessCredentials.apiKey = Application.AUTH_API_KEY
         veryfiLensHeadlessCredentials.username = Application.AUTH_USERNAME
         veryfiLensHeadlessCredentials.clientId = Application.CLIENT_ID
-        VeryfiLensHeadless.configure(this.application, veryfiLensHeadlessCredentials, veryfiLensHeadlessSetting) {
+        VeryfiLensHeadless.configure(
+            this.application,
+            veryfiLensHeadlessCredentials,
+            veryfiLensHeadlessSetting
+        ) {
         }
         setContentView(viewBinding.root)
         setSupportActionBar(viewBinding.toolbar)
@@ -130,43 +136,60 @@ class CaptureCreditCardActivity : AppCompatActivity() {
                     .addUseCase(preview)
                     .addUseCase(imageAnalyzer)
                     .build()
-                val camera = cameraProvider?.bindToLifecycle(
+                camera = cameraProvider?.bindToLifecycle(
                     this,
                     CameraSelector.DEFAULT_BACK_CAMERA,
                     useCaseGroup
                 )
-                viewBinding.cameraPreview.setOnTouchListener { view, event ->
-                    return@setOnTouchListener when (event.action) {
-                        MotionEvent.ACTION_DOWN -> {
-                            true
-                        }
-                        MotionEvent.ACTION_UP -> {
-                            val factory: MeteringPointFactory = SurfaceOrientedMeteringPointFactory(
-                                viewBinding.cameraPreview.width.toFloat(), viewBinding.cameraPreview.height.toFloat()
-                            )
-                            val autoFocusPoint = factory.createPoint(event.x, event.y)
-                            try {
-                                camera?.cameraControl?.startFocusAndMetering(
-                                    FocusMeteringAction.Builder(
-                                        autoFocusPoint,
-                                        FocusMeteringAction.FLAG_AF
-                                    ).apply {
-                                        disableAutoCancel()
-                                    }.build()
-                                )
-                            } catch (e: CameraInfoUnavailableException) {
-                                Log.d(TAG, "Can't focus, camera not accessible")
-                            }
-                            view.performClick()
-                            true
-                        }
-                        else -> false
-                    }
-                }
+                startAutoFocusing()
+                startFocusOnClick()
+
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
         }, ContextCompat.getMainExecutor(this))
+    }
+
+    private fun startAutoFocusing() {
+        val autoFocusPoint = SurfaceOrientedMeteringPointFactory(1f, 1f)
+            .createPoint(.5f, .5f)
+        try {
+            val autoFocusAction = FocusMeteringAction.Builder(
+                autoFocusPoint,
+                FocusMeteringAction.FLAG_AF
+            ).apply {
+                setAutoCancelDuration(AUTO_FOCUS_TIME, TimeUnit.SECONDS)
+            }.build()
+            camera?.cameraControl?.startFocusAndMetering(autoFocusAction)
+        } catch (e: CameraInfoUnavailableException) {
+            Log.e(TAG, "Can't do auto focus", e)
+        }
+    }
+
+    private fun startFocusOnClick() {
+        viewBinding.cameraPreview.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val factory: MeteringPointFactory = SurfaceOrientedMeteringPointFactory(
+                    viewBinding.cameraPreview.width.toFloat(),
+                    viewBinding.cameraPreview.height.toFloat()
+                )
+                val autoFocusPoint = factory.createPoint(event.x, event.y)
+                try {
+                    camera?.cameraControl?.startFocusAndMetering(
+                        FocusMeteringAction.Builder(
+                            autoFocusPoint,
+                            FocusMeteringAction.FLAG_AF
+                        ).apply {
+                            //focus only when the user tap the preview
+                            disableAutoCancel()
+                        }.build()
+                    )
+                } catch (e: CameraInfoUnavailableException) {
+                    Log.e(TAG, "Can't do manual focus", e)
+                }
+            }
+            viewBinding.cameraPreview.performClick()
+        }
     }
 
     private fun setUpVeryfiLensDelegate() {
@@ -313,7 +336,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         backToCapture()
-        VeryfiLensHeadless .reset()
+        VeryfiLensHeadless.reset()
     }
 
     override fun onDestroy() {
@@ -323,6 +346,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "CameraXApp"
+        private const val AUTO_FOCUS_TIME = 3L
         private const val REQUEST_CODE_PERMISSIONS = 10
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
