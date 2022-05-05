@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.Surface
 import android.view.View
 import android.widget.Toast
@@ -129,11 +130,39 @@ class CaptureCreditCardActivity : AppCompatActivity() {
                     .addUseCase(preview)
                     .addUseCase(imageAnalyzer)
                     .build()
-                cameraProvider?.bindToLifecycle(
+                val camera = cameraProvider?.bindToLifecycle(
                     this,
                     CameraSelector.DEFAULT_BACK_CAMERA,
                     useCaseGroup
                 )
+                viewBinding.cameraPreview.setOnTouchListener { view, event ->
+                    return@setOnTouchListener when (event.action) {
+                        MotionEvent.ACTION_DOWN -> {
+                            true
+                        }
+                        MotionEvent.ACTION_UP -> {
+                            val factory: MeteringPointFactory = SurfaceOrientedMeteringPointFactory(
+                                viewBinding.cameraPreview.width.toFloat(), viewBinding.cameraPreview.height.toFloat()
+                            )
+                            val autoFocusPoint = factory.createPoint(event.x, event.y)
+                            try {
+                                camera?.cameraControl?.startFocusAndMetering(
+                                    FocusMeteringAction.Builder(
+                                        autoFocusPoint,
+                                        FocusMeteringAction.FLAG_AF
+                                    ).apply {
+                                        disableAutoCancel()
+                                    }.build()
+                                )
+                            } catch (e: CameraInfoUnavailableException) {
+                                Log.d(TAG, "Can't focus, camera not accessible")
+                            }
+                            view.performClick()
+                            true
+                        }
+                        else -> false
+                    }
+                }
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
