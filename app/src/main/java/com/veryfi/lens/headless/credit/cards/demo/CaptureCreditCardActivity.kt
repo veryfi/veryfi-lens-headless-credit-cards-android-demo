@@ -5,9 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
-import android.view.Surface
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
@@ -30,6 +28,9 @@ import kotlin.concurrent.schedule
 
 class CaptureCreditCardActivity : AppCompatActivity() {
 
+    private var autoTorchMenuItem: MenuItem? = null
+    private var isTorchOn: Boolean = false
+    private var autoTorch: Boolean = false
     private var camera: Camera? = null
     private var flipExtractionRequired: Boolean = false
     private var cardData: CardData = CardData()
@@ -67,7 +68,32 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         }
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_auto_torch, menu)
+        autoTorchMenuItem = menu?.findItem(R.id.menu_auto_torch_item)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_auto_torch_item) {
+            if (autoTorch) {
+                autoTorch = false
+                isTorchOn = false
+                item.setIcon(R.drawable.flash_auto)
+                if (camera?.cameraInfo?.hasFlashUnit() == true)
+                    camera?.cameraControl?.enableTorch(false)
+            } else {
+                autoTorch = true
+                item.setIcon(R.drawable.flash_off)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
     private fun browseToCardDetails() {
+        autoTorchMenuItem?.isVisible = false
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         viewBinding.toolbar.setTitle(R.string.details)
@@ -92,6 +118,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
     private fun backToCapture() {
         //back to initial state
         flipExtractionRequired = false
+        autoTorchMenuItem?.isVisible = true
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         viewBinding.toolbar.setNavigationOnClickListener {
@@ -125,6 +152,17 @@ class CaptureCreditCardActivity : AppCompatActivity() {
             imageAnalyzer.setAnalyzer(
                 Executors.newSingleThreadExecutor(),
                 CameraAnalyzer { byteArray, width, height ->
+                    if (autoTorch) {
+                        val pixels = byteArray.map { it.toInt() and 0xFF }
+                        if (pixels.average() < MIN_LUMEN_FLASH_TRIGGER) {
+                            runOnUiThread {
+                                if (!isTorchOn) {
+                                    camera?.cameraControl?.enableTorch(true)
+                                    isTorchOn = true
+                                }
+                            }
+                        }
+                    }
                     //Integration with Lens SDK
                     if (viewBinding.cameraPreview.visibility != View.GONE) {
                         VeryfiLensHeadless.processCreditCard(Frame(byteArray, width, height))
@@ -346,6 +384,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "CameraXApp"
+        private const val MIN_LUMEN_FLASH_TRIGGER = 105
         private const val AUTO_FOCUS_TIME = 3L
         private const val REQUEST_CODE_PERMISSIONS = 10
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
