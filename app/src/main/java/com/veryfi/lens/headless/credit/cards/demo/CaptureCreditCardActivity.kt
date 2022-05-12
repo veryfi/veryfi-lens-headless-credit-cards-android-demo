@@ -43,6 +43,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         viewBinding = ActivityCaptureCreditCardBinding.inflate(layoutInflater)
         val veryfiLensHeadlessCredentials = VeryfiLensHeadlessCredentials()
         val veryfiLensHeadlessSetting = VeryfiLensHeadlessSettings()
+        veryfiLensHeadlessSetting.autoCaptureMode = VeryfiLensHeadlessSettings.AutoCaptureMode.Normal //Speed vs Accuracy
         veryfiLensHeadlessCredentials.apiKey = Application.AUTH_API_KEY
         veryfiLensHeadlessCredentials.username = Application.AUTH_USERNAME
         veryfiLensHeadlessCredentials.clientId = Application.CLIENT_ID
@@ -135,6 +136,10 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         }
         viewBinding.contentCameraProcessing.flipImage.visibility = View.GONE
         cardData = CardData() // clean data
+        VeryfiLensHeadless.getSettings().detectCardNumber = true
+        VeryfiLensHeadless.getSettings().detectCardHolderName = true
+        VeryfiLensHeadless.getSettings().detectCardDate = true
+        VeryfiLensHeadless.getSettings().detectCardCVC = true
     }
 
     private fun startCamera() {
@@ -282,7 +287,6 @@ class CaptureCreditCardActivity : AppCompatActivity() {
             return cardNumber.isNotEmpty()
                     && cardName.isNotEmpty()
                     && cardExpDate.isNotEmpty()
-                    && cardType.isNotEmpty()
                     && cardCvc.isNotEmpty()
         }
     }
@@ -290,10 +294,18 @@ class CaptureCreditCardActivity : AppCompatActivity() {
     private fun updatePlaceHolders(data: JSONObject) {
         val cardData = getCardData(data)
         viewBinding.contentCameraProcessing.creditCardData.visibility = View.VISIBLE
-        viewBinding.contentCameraProcessing.cardNumber.text = cardData.cardNumber
-        viewBinding.contentCameraProcessing.cardDate.text = cardData.cardExpDate
-        viewBinding.contentCameraProcessing.cardName.text = cardData.cardName
-        viewBinding.contentCameraProcessing.cardCVC.text = cardData.cardCvc
+        if (this.cardData.cardNumber.isEmpty()) {
+            viewBinding.contentCameraProcessing.cardNumber.text = cardData.cardNumber
+        }
+        if (this.cardData.cardName.isEmpty()) {
+            viewBinding.contentCameraProcessing.cardName.text = cardData.cardName
+        }
+        if (this.cardData.cardExpDate.isEmpty()) {
+            viewBinding.contentCameraProcessing.cardDate.text = cardData.cardExpDate
+        }
+        if (this.cardData.cardCvc.isEmpty()) {
+            viewBinding.contentCameraProcessing.cardCVC.text = cardData.cardCvc
+        }
     }
 
     private fun getCardData(data: JSONObject): CardData {
@@ -309,18 +321,22 @@ class CaptureCreditCardActivity : AppCompatActivity() {
     private fun updateCardData(data: JSONObject) {
         if (cardData.cardNumber.isEmpty()) {
             cardData.cardNumber = data.getString("card_number")
+            VeryfiLensHeadless.getSettings().detectCardNumber = cardData.cardNumber.isEmpty()
         }
         if (cardData.cardExpDate.isEmpty()) {
             cardData.cardExpDate = data.getJSONArray("card_dates")[0].toString()
+            VeryfiLensHeadless.getSettings().detectCardDate = cardData.cardExpDate.isEmpty()
         }
         if (cardData.cardName.isEmpty()) {
             cardData.cardName = data.getString("card_name")
+            VeryfiLensHeadless.getSettings().detectCardHolderName = cardData.cardName.isEmpty()
         }
         if (cardData.cardType.isEmpty()) {
             cardData.cardType = data.getString("card_type")
         }
         if (cardData.cardCvc.isEmpty()) {
             cardData.cardCvc = data.getString("card_cvc")
+            VeryfiLensHeadless.getSettings().detectCardCVC = cardData.cardCvc.isEmpty()
         }
     }
 
