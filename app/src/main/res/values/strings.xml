@@ -13,4 +13,5 @@
     <string name="open_capture_credit_card">Capture Credit Card</string>
     <string name="process_new_credit_card">Process new Credit Card</string>
     <string name="menu_auto_torch">Auto torch</string>
+    <dimen name="fields_detail_margin">15dp</dimen>
 </resources>
