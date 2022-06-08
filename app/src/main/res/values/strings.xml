@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">demo_credit_card</string>
-    <string name="scan">Scan a card</string>
-    <string name="fit">Fit the card within the frame</string>
+    <string name="scan">Add card</string>
+    <string name="fit">Position your debit or credit card in the frame to scan in</string>
     <string name="enter_details">Enter details manually</string>
     <string name="flip">Flip the card over</string>
     <string name="details">Enter card details</string>
@@ -14,5 +14,12 @@
     <string name="process_new_credit_card">Process new Credit Card</string>
     <string name="menu_auto_torch">Auto torch</string>
     <string name="card_details">Card details</string>
+    <string name="settings">Settings</string>
+    <string name="scan_caldholder_name">Scan cardholder name</string>
+    <string name="scan_expiry_date">Scan expiry date</string>
+    <string name="scan_security_code">Scan security code</string>
+    <string name="content_description">content description</string>
+    <string name="privacy_police">The captured data is safe. It is not cached, shared or uploaded anywhere. The data extraction is made exclusively on the device. Check our <font color='blue'>Privacy Policy</font></string>
+    <string name="privacy_police_link">https://www.veryfi.com/privacy</string>
     <dimen name="fields_detail_margin">15dp</dimen>
 </resources>
