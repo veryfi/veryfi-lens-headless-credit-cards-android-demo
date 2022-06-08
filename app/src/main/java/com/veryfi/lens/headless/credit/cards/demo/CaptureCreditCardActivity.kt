@@ -2,10 +2,10 @@ package com.veryfi.lens.headless.credit.cards.demo
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
@@ -13,6 +13,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.veryfi.lens.headless.credit.cards.demo.databinding.ActivityCaptureCreditCardBinding
+import com.veryfi.lens.headless.credit.cards.demo.helpers.ThemeHelper
 import com.veryfi.lens.headless.creditcards.VeryfiLensHeadless
 import com.veryfi.lens.headless.creditcards.VeryfiLensHeadlessCredentials
 import com.veryfi.lens.headless.creditcards.VeryfiLensHeadlessDelegate
@@ -25,6 +26,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.schedule
+
 
 class CaptureCreditCardActivity : AppCompatActivity() {
 
@@ -43,7 +45,8 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         viewBinding = ActivityCaptureCreditCardBinding.inflate(layoutInflater)
         val veryfiLensHeadlessCredentials = VeryfiLensHeadlessCredentials()
         val veryfiLensHeadlessSetting = VeryfiLensHeadlessSettings()
-        veryfiLensHeadlessSetting.autoCaptureMode = VeryfiLensHeadlessSettings.AutoCaptureMode.Normal //Speed vs Accuracy
+        veryfiLensHeadlessSetting.autoCaptureMode =
+            VeryfiLensHeadlessSettings.AutoCaptureMode.Normal //Speed vs Accuracy
         veryfiLensHeadlessCredentials.apiKey = Application.AUTH_API_KEY
         veryfiLensHeadlessCredentials.username = Application.AUTH_USERNAME
         veryfiLensHeadlessCredentials.clientId = Application.CLIENT_ID
@@ -54,21 +57,25 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         ) {
         }
         setContentView(viewBinding.root)
-        setSupportActionBar(viewBinding.toolbar)
+        cameraExecutor = Executors.newSingleThreadExecutor()
+        VeryfiLensHeadless.context?.let { ThemeHelper.setSecondaryColorToStatusBar(this, it) }
+        setUpToolBar()
         setUpVeryfiLensDelegate()
         checkPermissions()
-        cameraExecutor = Executors.newSingleThreadExecutor()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        viewBinding.toolbar.setNavigationIcon(R.drawable.ic_vector_back)
-        viewBinding.toolbar.setNavigationOnClickListener {
-            finish()
-        }
         viewBinding.contentCameraProcessing.enterDetails.setOnClickListener {
             browseToCardDetails()
         }
     }
 
+    private fun setUpToolBar() {
+        setSupportActionBar(viewBinding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        viewBinding.toolbar.setNavigationIcon(R.drawable.ic_vector_close_shape)
+        viewBinding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_auto_torch, menu)
@@ -81,12 +88,12 @@ class CaptureCreditCardActivity : AppCompatActivity() {
             if (autoTorch) {
                 autoTorch = false
                 isTorchOn = false
-                item.setIcon(R.drawable.flash_auto)
+                item.setIcon(R.drawable.ic_vector_flash_auto_shape)
                 if (camera?.cameraInfo?.hasFlashUnit() == true)
                     camera?.cameraControl?.enableTorch(false)
             } else {
                 autoTorch = true
-                item.setIcon(R.drawable.flash_off)
+                item.setIcon(R.drawable.ic_vector_flash_off_shape)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -131,9 +138,6 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         viewBinding.cameraPreview.visibility = View.VISIBLE
         viewBinding.contentCameraProcessing.creditCardData.visibility = View.GONE
         viewBinding.contentCameraProcessing.scanSubtitle.setText(R.string.scan)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            viewBinding.contentCameraProcessing.scanSubtitle.setTextColor(getColor(R.color.black))
-        }
         viewBinding.contentCameraProcessing.flipImage.visibility = View.GONE
         cardData = CardData() // clean data
         VeryfiLensHeadless.getSettings().detectCardNumber = true
@@ -272,9 +276,6 @@ class CaptureCreditCardActivity : AppCompatActivity() {
             //update UI and ask for flip the card to user
             flipExtractionRequired = true
             viewBinding.contentCameraProcessing.scanSubtitle.setText(R.string.flip)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                viewBinding.contentCameraProcessing.scanSubtitle.setTextColor(getColor(R.color.green))
-            }
             viewBinding.contentCameraProcessing.flipImage.visibility = View.VISIBLE
             Timer("SettingUp", false).schedule(4000) {
                 VeryfiLensHeadless.reset()
