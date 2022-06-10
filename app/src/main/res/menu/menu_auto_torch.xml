@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_auto_torch_item"
-        android:icon="@drawable/flash_auto"
+        android:icon="@drawable/ic_vector_flash_auto_shape"
         android:title="@string/menu_auto_torch"
         app:showAsAction="ifRoom" />
 </menu>

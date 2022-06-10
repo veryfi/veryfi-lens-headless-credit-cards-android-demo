@@ -1,131 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="?attr/actionBarSize">
+    android:padding="8dp">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/enter_details_margin"
-        app:cardBackgroundColor="@color/light_gray"
-        app:cardCornerRadius="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginTop="12dp"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/settings_card"
+            style="?attr/materialCardViewElevatedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="8dp"
+            app:cardCornerRadius="16dp">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:orientation="vertical"
-                android:padding="12dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/cardNumberLabel"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="16dp"
-                    android:paddingStart="@dimen/fields_detail_margin"
-                    android:text="@string/card_number"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/cardDateLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:paddingStart="@dimen/fields_detail_margin"
-                    android:text="@string/card_date"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/card_details"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/cardCVCLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:paddingStart="@dimen/fields_detail_margin"
-                    android:text="@string/card_cvc"
-                    android:textStyle="bold" />
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:paddingStart="@dimen/fields_detail_margin"
-                    android:text="@string/card_name"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorSurface"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp">
 
-                <TextView
-                    android:id="@+id/cardTypeLabel"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/card_number"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/cardNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:paddingStart="@dimen/fields_detail_margin"
-                    android:text="@string/card_type"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorSurface"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/card_date"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/cardDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorSurface"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/card_cvc"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/cardCVC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorSurface"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/card_name"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/cardName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorSurface"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/card_type"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/cardType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="6"
-                android:orientation="vertical"
-                android:paddingVertical="12dp">
+        <Button
+            android:id="@+id/processOtherCreditCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="50dp"
+            android:text="@string/process_new_credit_card"
+            tools:ignore="PrivateResource" />
 
-                <TextView
-                    android:id="@+id/cardNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="16dp"
-                    android:importantForAutofill="no"
-                    tools:ignore="LabelFor" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/cardDate"
-                    android:layout_width="@dimen/card_date_width"
-                    android:layout_height="30dp"
-                    android:importantForAutofill="no"
-                    tools:ignore="LabelFor" />
-
-                <TextView
-                    android:id="@+id/cardCVC"
-                    android:layout_width="@dimen/card_date_width"
-                    android:layout_height="30dp"
-                    android:importantForAutofill="no"
-                    tools:ignore="LabelFor" />
-
-                <TextView
-                    android:id="@+id/cardName"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:importantForAutofill="no"
-                    tools:ignore="LabelFor" />
-
-                <TextView
-                    android:id="@+id/cardType"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:importantForAutofill="no"
-                    tools:ignore="LabelFor" />
-            </LinearLayout>
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/processOtherCreditCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="80dp"
-        android:text="@string/process_new_credit_card"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
