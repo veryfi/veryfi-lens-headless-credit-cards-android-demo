@@ -57,6 +57,18 @@ class MainActivity : AppCompatActivity() {
             intents.putExtras(b)
             this@MainActivity.startActivity(intents)
         }
+
+        viewBinding.switchCardHolder.setOnCheckedChangeListener { _, isChecked ->
+            cardHolderNameOn = isChecked
+        }
+
+        viewBinding.switchExpiryDate.setOnCheckedChangeListener { _, isChecked ->
+            cardDateOn = isChecked
+        }
+
+        viewBinding.switchCode.setOnCheckedChangeListener { _, isChecked ->
+            cardCvcOn = isChecked
+        }
     }
 
     companion object {
