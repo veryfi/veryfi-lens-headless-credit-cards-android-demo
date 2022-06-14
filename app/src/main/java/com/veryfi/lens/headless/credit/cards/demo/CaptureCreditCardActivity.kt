@@ -45,7 +45,6 @@ class CaptureCreditCardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCaptureCreditCardBinding.inflate(layoutInflater)
-        setupHeadless()
         setContentView(viewBinding.root)
         cameraExecutor = Executors.newSingleThreadExecutor()
         VeryfiLensHeadless.context?.let { ThemeHelper.setSecondaryColorToStatusBar(this, it) }
@@ -297,10 +296,40 @@ class CaptureCreditCardActivity : AppCompatActivity() {
 
     private fun requiredCardDataCompleted(): Boolean {
         cardData.apply {
-            return cardNumber.isNotEmpty()
-                    && cardName.isNotEmpty()
-                    && cardExpDate.isNotEmpty()
-                    && cardCvc.isNotEmpty()
+            return (cardNumber.isNotEmpty()
+                    && validateCardName()
+                    && validateCardDate()
+                    && validateCardCode())
+        }
+    }
+
+    private fun validateCardName(): Boolean {
+        cardData.apply {
+            return if (cardHolderNameOn) {
+                cardName.isNotEmpty()
+            } else {
+                true
+            }
+        }
+    }
+
+    private fun validateCardDate(): Boolean {
+        cardData.apply {
+            return if (cardDateOn) {
+                cardExpDate.isNotEmpty()
+            } else {
+                true
+            }
+        }
+    }
+
+    private fun validateCardCode(): Boolean {
+        cardData.apply {
+            return if (cardCvcOn) {
+                cardCvc.isNotEmpty()
+            } else {
+                true
+            }
         }
     }
 
