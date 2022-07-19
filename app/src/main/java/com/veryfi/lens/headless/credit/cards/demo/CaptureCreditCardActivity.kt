@@ -288,8 +288,12 @@ class CaptureCreditCardActivity : AppCompatActivity() {
             flipExtractionRequired = true
             viewBinding.contentCameraProcessing.scanSubtitle.setText(R.string.flip)
             viewBinding.contentCameraProcessing.flipImage.visibility = View.VISIBLE
+            viewBinding.contentCameraProcessing.flipImage.animate().rotationYBy(720f)
+            viewBinding.contentCameraProcessing.flipImage.animate().duration = 4000
+            viewBinding.contentCameraProcessing.flipImage.animate().start()
             Timer("SettingUp", false).schedule(4000) {
                 VeryfiLensHeadless.reset()
+                viewBinding.contentCameraProcessing.flipImage.visibility = View.INVISIBLE
             }
         }
     }
