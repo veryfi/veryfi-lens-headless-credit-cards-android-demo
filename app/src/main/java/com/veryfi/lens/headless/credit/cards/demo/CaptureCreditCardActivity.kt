@@ -14,11 +14,8 @@ import androidx.core.content.ContextCompat
 import com.veryfi.lens.headless.credit.cards.demo.databinding.ActivityCaptureCreditCardBinding
 import com.veryfi.lens.headless.credit.cards.demo.helpers.ThemeHelper
 import com.veryfi.lens.headless.creditcards.VeryfiLensHeadless
-import com.veryfi.lens.headless.creditcards.VeryfiLensHeadlessCredentials
 import com.veryfi.lens.headless.creditcards.VeryfiLensHeadlessDelegate
-import com.veryfi.lens.headless.creditcards.VeryfiLensHeadlessSettings
-import com.veryfi.lens.headless.creditcards.helpers.Frame
-import com.veryfi.lens.headless.creditcards.helpers.ScreenUtils
+import com.veryfi.lens.helpers.*
 import org.json.JSONObject
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -47,7 +44,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         viewBinding = ActivityCaptureCreditCardBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         cameraExecutor = Executors.newSingleThreadExecutor()
-        VeryfiLensHeadless.context?.let { ThemeHelper.setSecondaryColorToStatusBar(this, it) }
+        VeryfiLensHeadless.context.let { ThemeHelper.setSecondaryColorToStatusBar(this, it) }
         setupHeadless()
         setUpToolBar()
         setUpVeryfiLensDelegate()
@@ -58,23 +55,25 @@ class CaptureCreditCardActivity : AppCompatActivity() {
     }
 
     private fun setupHeadless() {
-        val veryfiLensHeadlessCredentials = VeryfiLensHeadlessCredentials()
-        val veryfiLensHeadlessSetting = VeryfiLensHeadlessSettings()
+        val veryfiLensHeadlessCredentials = VeryfiLensCredentials()
+        val veryfiLensSettings = VeryfiLensSettings()
         cardHolderNameOn = intent.extras?.getSerializable(CARD_HOLDER_NAME) as Boolean
         cardDateOn = intent.extras?.getSerializable(CARD_DATE) as Boolean
         cardCvcOn = intent.extras?.getSerializable(CARD_CVC) as Boolean
-        veryfiLensHeadlessSetting.detectCardHolderName = cardHolderNameOn
-        veryfiLensHeadlessSetting.detectCardDate = cardDateOn
-        veryfiLensHeadlessSetting.detectCardCVC = cardCvcOn
-        veryfiLensHeadlessSetting.autoCaptureMode =
-            VeryfiLensHeadlessSettings.AutoCaptureMode.Normal //Speed vs Accuracy
+        veryfiLensSettings.creditCardMarginTop = 100
+        veryfiLensSettings.creditCardMarginBottom = 50
+        veryfiLensSettings.creditCardDetectCardHolderName = cardHolderNameOn
+        veryfiLensSettings.creditCardDetectCardDate = cardDateOn
+        veryfiLensSettings.creditCardDetectCardCVC = cardCvcOn
+        veryfiLensSettings.creditCardAutoCaptureMode =
+            VeryfiLensSettings.CreditCardAutoCaptureMode.Normal //Speed vs Accuracy
         veryfiLensHeadlessCredentials.apiKey = Application.AUTH_API_KEY
         veryfiLensHeadlessCredentials.username = Application.AUTH_USERNAME
         veryfiLensHeadlessCredentials.clientId = Application.CLIENT_ID
         VeryfiLensHeadless.configure(
             this.application,
             veryfiLensHeadlessCredentials,
-            veryfiLensHeadlessSetting
+            veryfiLensSettings
         ) {
         }
     }
@@ -89,9 +88,9 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_auto_torch, menu)
-        autoTorchMenuItem = menu?.findItem(R.id.menu_auto_torch_item)
+        autoTorchMenuItem = menu.findItem(R.id.menu_auto_torch_item)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -151,10 +150,10 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         viewBinding.contentCameraProcessing.scanSubtitle.setText(R.string.scan)
         viewBinding.contentCameraProcessing.flipImage.visibility = View.GONE
         cardData = CardData() // clean data
-        VeryfiLensHeadless.getSettings().detectCardNumber = true
-        VeryfiLensHeadless.getSettings().detectCardHolderName = cardHolderNameOn
-        VeryfiLensHeadless.getSettings().detectCardDate = cardDateOn
-        VeryfiLensHeadless.getSettings().detectCardCVC = cardCvcOn
+        VeryfiLensHelper.settings.creditCardDetectCardNumber = true
+        VeryfiLensHelper.settings.creditCardDetectCardHolderName = cardHolderNameOn
+        VeryfiLensHelper.settings.creditCardDetectCardDate = cardDateOn
+        VeryfiLensHelper.settings.creditCardDetectCardCVC = cardCvcOn
     }
 
     private fun startCamera() {
@@ -367,28 +366,28 @@ class CaptureCreditCardActivity : AppCompatActivity() {
     private fun updateCardData(data: JSONObject) {
         if (cardData.cardNumber.isEmpty()) {
             cardData.cardNumber = data.getString("card_number")
-            VeryfiLensHeadless.getSettings().detectCardNumber = cardData.cardNumber.isEmpty()
+            VeryfiLensHelper.settings.creditCardDetectCardNumber = cardData.cardNumber.isEmpty()
         }
         if (cardData.cardExpDate.isEmpty()) {
             cardData.cardExpDate = data.getJSONArray("card_dates")[0].toString()
-            VeryfiLensHeadless.getSettings().detectCardDate = cardData.cardExpDate.isEmpty()
+            VeryfiLensHelper.settings.creditCardDetectCardDate = cardData.cardExpDate.isEmpty()
         }
         if (cardData.cardName.isEmpty()) {
             cardData.cardName = data.getString("card_name")
-            VeryfiLensHeadless.getSettings().detectCardHolderName = cardData.cardName.isEmpty()
+            VeryfiLensHelper.settings.creditCardDetectCardHolderName = cardData.cardName.isEmpty()
         }
         if (cardData.cardType.isEmpty()) {
             cardData.cardType = data.getString("card_type")
         }
         if (cardData.cardCvc.isEmpty()) {
             cardData.cardCvc = data.getString("card_cvc")
-            VeryfiLensHeadless.getSettings().detectCardCVC = cardData.cardCvc.isEmpty()
+            VeryfiLensHelper.settings.creditCardDetectCardCVC = cardData.cardCvc.isEmpty()
         }
     }
 
     private fun aspectRatio(): Int {
-        val width = ScreenUtils.getScreenWidth(this)
-        val height = ScreenUtils.getScreenHeight(this)
+        val width = ScreenHelper.getScreenWidth(this)
+        val height = ScreenHelper.getScreenHeight(this)
         val previewRatio = kotlin.math.max(width, height).toDouble() / kotlin.math.min(
             width,
             height

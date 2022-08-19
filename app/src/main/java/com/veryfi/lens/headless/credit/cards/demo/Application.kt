@@ -3,10 +3,10 @@ package com.veryfi.lens.headless.credit.cards.demo
 import android.app.Application
 import android.util.Log
 import com.veryfi.lens.headless.creditcards.VeryfiLensHeadless
-import com.veryfi.lens.headless.creditcards.VeryfiLensHeadlessCredentials
-import com.veryfi.lens.headless.creditcards.VeryfiLensHeadlessSettings
+import com.veryfi.lens.helpers.VeryfiLensCredentials
+import com.veryfi.lens.helpers.VeryfiLensSettings
 
-class Application: Application() {
+class Application : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -14,14 +14,18 @@ class Application: Application() {
     }
 
     private fun configureLens() {
-        val veryfiLensHeadlessCredentials = VeryfiLensHeadlessCredentials()
-        val veryfiLensHeadlessSetting = VeryfiLensHeadlessSettings()
+        val veryfiLensHeadlessCredentials = VeryfiLensCredentials()
+        val veryfiLensHeadlessSetting = VeryfiLensSettings()
         veryfiLensHeadlessCredentials.apiKey = AUTH_API_KEY
         veryfiLensHeadlessCredentials.username = AUTH_USERNAME
         veryfiLensHeadlessCredentials.clientId = CLIENT_ID
 
         Log.d(TAG, "VeryfiLens.configure loading...")
-        VeryfiLensHeadless.configure(this, veryfiLensHeadlessCredentials, veryfiLensHeadlessSetting) {
+        VeryfiLensHeadless.configure(
+            this,
+            veryfiLensHeadlessCredentials,
+            veryfiLensHeadlessSetting
+        ) {
             Log.d(TAG, "VeryfiLens.configure $it")
         }
     }
