@@ -82,13 +82,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Android Lens
-    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.6.1.10'
+    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.6.2.0'
 
     // Camera x
-    implementation "androidx.camera:camera-core:1.2.0-beta01"
-    implementation "androidx.camera:camera-camera2:1.2.0-beta01"
-    implementation "androidx.camera:camera-lifecycle:1.2.0-beta01"
-    implementation "androidx.camera:camera-video:1.2.0-beta01"
-    implementation "androidx.camera:camera-view:1.2.0-beta01"
-    implementation "androidx.camera:camera-extensions:1.2.0-beta01"
+    implementation "androidx.camera:camera-core:1.2.0-beta02"
+    implementation "androidx.camera:camera-camera2:1.2.0-beta02"
+    implementation "androidx.camera:camera-lifecycle:1.2.0-beta02"
+    implementation "androidx.camera:camera-video:1.2.0-beta02"
+    implementation "androidx.camera:camera-view:1.2.0-beta02"
+    implementation "androidx.camera:camera-extensions:1.2.0-beta02"
 }
