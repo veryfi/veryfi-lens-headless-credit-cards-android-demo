@@ -41,8 +41,8 @@ android {
     buildTypes {
         debug {
             //minify must be disabled until we fix the proguard issue
-            shrinkResources false
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             ndk {
@@ -51,8 +51,8 @@ android {
         }
         release {
             //minify must be disabled until we fix the proguard issue
-            shrinkResources false
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             ndk {
                 debugSymbolLevel 'SYMBOL_TABLE'
