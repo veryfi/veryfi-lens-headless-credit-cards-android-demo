@@ -16,6 +16,8 @@ class Application : Application() {
     private fun configureLens() {
         val veryfiLensHeadlessCredentials = VeryfiLensCredentials()
         val veryfiLensHeadlessSetting = VeryfiLensSettings()
+        veryfiLensHeadlessSetting.creditCardMarginTop = 100
+        veryfiLensHeadlessSetting.creditCardMarginBottom = 50
         veryfiLensHeadlessCredentials.apiKey = AUTH_API_KEY
         veryfiLensHeadlessCredentials.username = AUTH_USERNAME
         veryfiLensHeadlessCredentials.clientId = CLIENT_ID

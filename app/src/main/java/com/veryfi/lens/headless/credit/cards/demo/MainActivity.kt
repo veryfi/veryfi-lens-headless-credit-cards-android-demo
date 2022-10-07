@@ -25,12 +25,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-        context?.let { ThemeHelper.setBackgroundColorToStatusBar(this, it) }
+        ThemeHelper.setBackgroundColorToStatusBar(this, context)
         setUpClickEvents()
     }
 
     private fun initVeryfiLogo() {
-        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+        when (context.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_YES -> {
                 viewBinding.veryfiLogo.setImageResource(R.drawable.ic_vector_veryfi_white)
             }

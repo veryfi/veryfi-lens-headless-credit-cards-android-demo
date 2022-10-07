@@ -20,6 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.veryfi.lens.headless.creditcards.helpers.ExportLogsHelper
--keep class com.veryfi.lens.headless.creditcards.helpers.ExportLogsHelper {public *;}
--keepclassmembers class com.veryfi.lens.headless.creditcards.helpers.ExportLogsHelper { *; }
+-keep class com.veryfi.lens.helpers.ExportLogsHelper
+-keep class com.veryfi.lens.helpers.ExportLogsHelper {public *;}
+-keepclassmembers class com.veryfi.lens.helpers.ExportLogsHelper { *; }
