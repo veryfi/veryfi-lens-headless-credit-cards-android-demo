@@ -122,11 +122,11 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         }
         viewBinding.contentCameraProcessing.root.visibility = View.GONE
         viewBinding.contentCardData.root.visibility = View.VISIBLE
-        viewBinding.contentCardData.cardNumber.setText(cardData.cardNumber)
-        viewBinding.contentCardData.cardDate.setText(cardData.cardExpDate)
-        viewBinding.contentCardData.cardName.setText(cardData.cardName)
-        viewBinding.contentCardData.cardType.setText(cardData.cardType)
-        viewBinding.contentCardData.cardCVC.setText(cardData.cardCvc)
+        viewBinding.contentCardData.cardNumber.text = cardData.cardNumber
+        viewBinding.contentCardData.cardDate.text = cardData.cardExpDate
+        viewBinding.contentCardData.cardName.text = cardData.cardName
+        viewBinding.contentCardData.cardType.text = cardData.cardType
+        viewBinding.contentCardData.cardCVC.text = cardData.cardCvc
         viewBinding.contentCardData.processOtherCreditCard.setOnClickListener {
             backToCapture()
             VeryfiLensHeadless.reset()
@@ -432,6 +432,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         backToCapture()
