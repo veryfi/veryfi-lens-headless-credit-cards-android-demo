@@ -90,7 +90,6 @@
 -keep class com.veryfi.lens.helpers.VeryfiLensCredentials {public *;}
 -keepclassmembers class com.veryfi.lens.helpers.VeryfiLensCredentials { *; }
 -keep class com.veryfi.lens.helpers.ExportLogsHelper {public *;}
--keepclassmembers class com.veryfi.lens.helpers.ExportLogsHelper { *; }
 -keep class com.veryfi.lens.helpers.VeryfiLensSettings {public *;}
 -keepclassmembers class com.veryfi.lens.helpers.VeryfiLensSettings { *; }
 -keep class com.veryfi.lens.helpers.VeryfiLensSettings {public *;}
@@ -131,12 +130,6 @@
 -keep class com.veryfi.lens.helpers.database.ProcessData {public *;}
 -keepclassmembers class com.veryfi.lens.helpers.database.ProcessData { *; }
 
--keep class com.veryfi.lens.cpp.ExportLogsCpp
--keep class com.veryfi.lens.cpp.ExportLogsCpp {public *;}
--keepclassmembers class com.veryfi.lens.cpp.ExportLogsCpp { *; }
-
-#-keep class com.veryfi.lens.cpp.** { *; }
-#-keepnames class com.veryfi.lens.cpp.** { *; }
 
 # eventbus
 -keepattributes *Annotation*
@@ -153,3 +146,23 @@
 -keepclassmembers enum * { *; }
 
 -keep class androidx.databinding.** { *; }
+
+-keep class com.veryfi.lens.cpp.ExportLogsCpp
+-keep class com.veryfi.lens.cpp.ExportLogsCpp {public *;}
+-keepclassmembers class com.veryfi.lens.cpp.ExportLogsCpp { *; }
+
+-keep class com.veryfi.lens.cpp.AutoCaptureResult
+-keep class com.veryfi.lens.cpp.AutoCaptureResult {public *;}
+-keepclassmembers class com.veryfi.lens.cpp.AutoCaptureResult { *; }
+
+-keep class com.veryfi.lens.cpp.AutoCaptureState
+-keep class com.veryfi.lens.cpp.AutoCaptureState {public *;}
+-keepclassmembers class com.veryfi.lens.cpp.AutoCaptureState { *; }
+
+-keep class com.veryfi.lens.cpp.TextReaderResult
+-keep class com.veryfi.lens.cpp.TextReaderResult {public *;}
+-keepclassmembers class com.veryfi.lens.cpp.TextReaderResult { *; }
+
+-keep class org.opencv.core.Mat
+-keep class org.opencv.core.Mat { public *; }
+-keepclassmembers class org.opencv.core.Mat { *; }
