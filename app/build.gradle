@@ -54,7 +54,7 @@ android {
         }
         release {
             //minify must be disabled until we fix the proguard issue
-            shrinkResources true
+            shrinkResources false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             ndk {
@@ -87,7 +87,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Android Lens
-    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.6.2.3'
+    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.6.2.4'
 
     // Camera x
     implementation "androidx.camera:camera-core:1.3.0-alpha01"
