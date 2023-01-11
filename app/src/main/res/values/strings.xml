@@ -21,5 +21,5 @@
     <string name="content_description">content description</string>
     <string name="privacy_police">The captured data is safe. It is not cached, shared or uploaded anywhere. The data extraction is made exclusively on the device. Check our <font color='blue'>Privacy Policy</font></string>
     <string name="privacy_police_link">https://www.veryfi.com/privacy</string>
-    <dimen name="fields_detail_margin">15dp</dimen>
+    <string name="lens_demo_link">Our Lens demo app is now available on Google Play</string>
 </resources>

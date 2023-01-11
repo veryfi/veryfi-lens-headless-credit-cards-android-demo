@@ -8,4 +8,5 @@
     <dimen name="enter_details_margin">40dp</dimen>
     <dimen name="fields_margin">30dp</dimen>
     <dimen name="card_date_width">60dp</dimen>
+    <dimen name="fields_detail_margin">15dp</dimen>
 </resources>
