@@ -87,7 +87,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Android Lens
-    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.6.2.7'
+    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.6.2.8'
 
     // Camera x
     implementation "androidx.camera:camera-core:1.3.0-alpha02"
