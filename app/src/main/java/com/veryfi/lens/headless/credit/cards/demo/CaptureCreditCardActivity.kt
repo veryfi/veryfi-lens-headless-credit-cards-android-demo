@@ -44,7 +44,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         viewBinding = ActivityCaptureCreditCardBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         cameraExecutor = Executors.newSingleThreadExecutor()
-        VeryfiLensHeadless.context.let { ThemeHelper.setSecondaryColorToStatusBar(this, it) }
+        ThemeHelper.setSecondaryColorToStatusBar(this, this)
         setupHeadless()
         setUpToolBar()
         setUpVeryfiLensDelegate()
