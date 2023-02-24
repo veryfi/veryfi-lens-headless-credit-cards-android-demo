@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.veryfi.lens.headless.credit.cards.demo.databinding.ActivityMainBinding
 import com.veryfi.lens.headless.credit.cards.demo.helpers.ThemeHelper
-import com.veryfi.lens.headless.creditcards.VeryfiLensHeadless.context
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,12 +24,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-        ThemeHelper.setBackgroundColorToStatusBar(this, context)
+        ThemeHelper.setBackgroundColorToStatusBar(this, this)
         setUpClickEvents()
     }
 
     private fun initVeryfiLogo() {
-        when (context.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+        when (resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_YES -> {
                 viewBinding.veryfiLogo.setImageResource(R.drawable.ic_vector_veryfi_white)
             }
