@@ -31,10 +31,10 @@ class MainActivity : AppCompatActivity() {
     private fun initVeryfiLogo() {
         when (resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_YES -> {
-                viewBinding.veryfiLogo.setImageResource(R.drawable.ic_vector_veryfi_white)
+                viewBinding.veryfiLogo.setImageResource(R.drawable.ic_veryfi_logo_white)
             }
             Configuration.UI_MODE_NIGHT_NO -> {
-                viewBinding.veryfiLogo.setImageResource(R.drawable.ic_vector_veryfi_black)
+                viewBinding.veryfiLogo.setImageResource(R.drawable.ic_veryfi_logo_black)
             }
         }
     }
