@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">demo_credit_card</string>
+    <string name="app_name">Headless Credit Cards Lens Demo</string>
     <string name="scan">Add card</string>
     <string name="fit">Position your debit or credit card in the frame to scan in</string>
     <string name="enter_details">Enter details manually</string>
