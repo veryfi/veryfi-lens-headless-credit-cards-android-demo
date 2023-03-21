@@ -19,28 +19,34 @@ Lens is built in native code and optimized for fast performance, clean user expe
 You can read further about Lens in Veryfi's dedicated page: https://www.veryfi.com/lens/
 
 ## Table of content
-1. [Veryfi Lens Headless Android Example](#example)
-2. [Configuration](#configuration)
-3. [Other platforms](#other_platforms)
-4. [Get in contact with our team](#contact)
+1. [Veryfi Lens Android Examples](#examples)
+2. [How to add Veryfi Lens to your project](#maven)
+3. [How to run this project](#configuration)
+4. [Other platforms](#other_platforms)
+5. [Get in contact with our team](#contact)
 
 ## Veryfi Lens Headless Credit Cards Android Example <a name="example"></a>
+This is an example of how to use Veryfi Lens Headless Credit Cards in your app, you can find the developer documentation [here](https://app.veryfi.com/lens/docs/android/).
+
 ![headless_credit_card](https://user-images.githubusercontent.com/30125790/178170505-d4c79add-7b4d-4477-82dc-00561a1fceb3.gif)
 
-## Other Lens Android Examples <a name="examples"></a>
-This is an example of how to use Veryfi Lens Headless Credit Cards in your app, you can find the developer documentation [here](LensHeadlessCreditCards.pdf).
-You can find five example projects, which are the five versions of Lens that we currently offer:
-- [Lens for Long Receipts](https://github.com/veryfi/veryfi-lens-long-receipts-android-demo)
-- [Lens for Receipts](https://github.com/veryfi/veryfi-lens-receipts-android-demo)
-- [Lens for Credit Cards](https://github.com/veryfi/veryfi-lens-credit-cards-android-demo)
-- [Lens for Business Cards](https://github.com/veryfi/veryfi-lens-business-cards-android-demo)
-- [Lens for Checks](https://github.com/veryfi/veryfi-lens-checks-android-demo)
+## How to add Veryfi Lens Credit Cards to your project <a name="maven"></a>
 
-### Configuration <a name="configuration"></a>
+Install from our private [Maven](https://nexus.veryfi.com/repository/maven-releases/), a
+package manager for Java.
+
+Add in your project build.gradle file the Veryfi Lens Headless Credit Cards android SDK dependency:
+```ruby
+dependencies {
+    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.7.0.5'
+}
+```
+
+## How to run this project <a name="configuration"></a>
 - Clone this repository
 - Open the demo with Android Studio
 - Add your Veryfi Artifactory credentials to settings.gradle
-- Replace credentials in `Application.kt` with yours
+- Replace credentials in `CaptureCreditCardActivity.kt` with yours
 ```
 const val CLIENT_ID = "XXX" // replace XXX with your assigned Client Id
 const val AUTH_USERNAME = "XXX" // replace XXX with your assigned Username
@@ -49,7 +55,17 @@ const val URL = "XXX" // replace XXX with your assigned Endpoint URL
 ```
 - Run the project
 
-### Other platforms <a name="other_platforms"></a>
+## Other Lens Android Examples <a name="examples"></a>
+You can find some example projects, which are the different versions of Lens that we currently offer:
+- [Lens for Long Receipts](https://github.com/veryfi/veryfi-lens-long-receipts-android-demo)
+- [Lens for Receipts](https://github.com/veryfi/veryfi-lens-receipts-android-demo)
+- [Lens for Credit Cards](https://github.com/veryfi/veryfi-lens-credit-cards-android-demo)
+- [Lens for Business Cards](https://github.com/veryfi/veryfi-lens-business-cards-android-demo)
+- [Lens for Checks](https://github.com/veryfi/veryfi-lens-checks-android-demo)
+- [Lens for W2](https://github.com/veryfi/veryfi-lens-w2-android-demo)
+- [Lens for W9](https://github.com/veryfi/veryfi-lens-w9-android-demo)
+
+## Other platforms <a name="other_platforms"></a>
 You can find these examples for Lens iOS
 - [Long Receipts](https://github.com/veryfi/veryfi-lens-long-receipts-ios-demo)
 - [Receipts](https://github.com/veryfi/veryfi-lens-receipts-ios-demo)
@@ -65,5 +81,5 @@ We also support the following wrappers for hybrid frameworks:
 
 If you don't have access to our Hub, please contact our sales team, you can find the contact bellow.
 
-### Get in contact with our sales team <a name="contact"></a>
+## Get in contact with our sales team <a name="contact"></a>
 Contact sales@veryfi.com to learn more about Veryfi's awesome products.
