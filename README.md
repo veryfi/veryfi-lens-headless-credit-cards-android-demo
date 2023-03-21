@@ -30,15 +30,15 @@ This is an example of how to use Veryfi Lens Headless Credit Cards in your app, 
 
 ![headless_credit_card](https://user-images.githubusercontent.com/30125790/178170505-d4c79add-7b4d-4477-82dc-00561a1fceb3.gif)
 
-## How to add Veryfi Lens Headless Credit Cards to your project <a name="maven"></a>
+## How to add Veryfi Lens Credit Cards to your project <a name="maven"></a>
 
 Install from our private [Maven](https://nexus.veryfi.com/repository/maven-releases/), a
 package manager for Java.
 
-Add in your project build.gradle file the Veryfi Lens Headless Credit Cards Android SDK dependency:
+Add in your project build.gradle file the Veryfi Lens Headless Credit Cards android SDK dependency:
 ```ruby
 dependencies {
-    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.7.0.4'
+    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.7.0.5'
 }
 ```
 
@@ -46,7 +46,7 @@ dependencies {
 - Clone this repository
 - Open the demo with Android Studio
 - Add your Veryfi Artifactory credentials to settings.gradle
-- Replace credentials in `Application.kt` with yours
+- Replace credentials in `CaptureCreditCardActivity.kt` with yours
 ```
 const val CLIENT_ID = "XXX" // replace XXX with your assigned Client Id
 const val AUTH_USERNAME = "XXX" // replace XXX with your assigned Username
@@ -66,7 +66,7 @@ You can find some example projects, which are the different versions of Lens tha
 - [Lens for W9](https://github.com/veryfi/veryfi-lens-w9-android-demo)
 
 ## Other platforms <a name="other_platforms"></a>
-You can find these examples for Lens iOS 
+You can find these examples for Lens iOS
 - [Long Receipts](https://github.com/veryfi/veryfi-lens-long-receipts-ios-demo)
 - [Receipts](https://github.com/veryfi/veryfi-lens-receipts-ios-demo)
 - [Credit Cards](https://github.com/veryfi/veryfi-lens-credit-cards-ios-demo)

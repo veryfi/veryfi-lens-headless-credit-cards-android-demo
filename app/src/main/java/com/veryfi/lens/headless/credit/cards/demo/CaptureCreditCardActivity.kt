@@ -67,15 +67,12 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         veryfiLensSettings.creditCardDetectCardCVC = cardCvcOn
         veryfiLensSettings.creditCardAutoCaptureMode =
             VeryfiLensSettings.CreditCardAutoCaptureMode.Normal //Speed vs Accuracy
-        veryfiLensHeadlessCredentials.apiKey = Application.AUTH_API_KEY
-        veryfiLensHeadlessCredentials.username = Application.AUTH_USERNAME
-        veryfiLensHeadlessCredentials.clientId = Application.CLIENT_ID
+        veryfiLensHeadlessCredentials.apiKey = AUTH_API_KEY
+        veryfiLensHeadlessCredentials.username = AUTH_USERNAME
+        veryfiLensHeadlessCredentials.clientId = CLIENT_ID
         VeryfiLensHeadless.configure(
-            this.application,
-            veryfiLensHeadlessCredentials,
-            veryfiLensSettings
-        ) {
-        }
+            application, veryfiLensHeadlessCredentials, veryfiLensSettings
+        ) {}
     }
 
     private fun setUpToolBar() {
@@ -447,6 +444,10 @@ class CaptureCreditCardActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val CLIENT_ID = BuildConfig.VERYFI_CLIENT_ID
+        const val AUTH_USERNAME = BuildConfig.VERYFI_USERNAME
+        const val AUTH_API_KEY = BuildConfig.VERYFI_API_KEY
+
         private const val TAG = "CameraXApp"
         private const val CARD_HOLDER_NAME = "card_holder_name"
         private const val CARD_DATE = "card_date"
