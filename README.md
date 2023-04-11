@@ -28,7 +28,7 @@ You can read further about Lens in Veryfi's dedicated page: https://www.veryfi.c
 ## Veryfi Lens Headless Credit Cards Android Example <a name="example"></a>
 This is an example of how to use Veryfi Lens Headless Credit Cards in your app, you can find the developer documentation [here](https://app.veryfi.com/lens/docs/android/).
 
-![headless_credit_card](https://user-images.githubusercontent.com/30125790/178170505-d4c79add-7b4d-4477-82dc-00561a1fceb3.gif)
+![headless_credit_card](headless-credit-cards-demo.gif)
 
 ## How to add Veryfi Lens Credit Cards to your project <a name="maven"></a>
 
@@ -38,7 +38,7 @@ package manager for Java.
 Add in your project build.gradle file the Veryfi Lens Headless Credit Cards android SDK dependency:
 ```ruby
 dependencies {
-    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.7.0.8'
+    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.7.0.9'
 }
 ```
 
