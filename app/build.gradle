@@ -103,5 +103,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // Veryfi Lens
-    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.7.1.22'
+    implementation 'com.veryfi.lens.headless:credit-cards-sdk:1.7.1.23'
 }
