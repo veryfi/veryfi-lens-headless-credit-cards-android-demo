@@ -49,6 +49,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         setUpToolBar()
         setUpVeryfiLensDelegate()
         checkPermissions()
+
         viewBinding.contentCameraProcessing.enterDetails.setOnClickListener {
             browseToCardDetails()
         }
@@ -154,56 +155,62 @@ class CaptureCreditCardActivity : AppCompatActivity() {
     }
 
     private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        cameraProviderFuture.addListener({
-            cameraProvider = cameraProviderFuture.get()
-            val preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(viewBinding.cameraPreview.surfaceProvider)
+        // Wait for the views to be properly laid out
+        viewBinding.cameraPreview.post {
+            Executors.newSingleThreadExecutor().execute {
+                val cameraProvider = ProcessCameraProvider.getInstance(this).get()
+                runOnUiThread {
+                    bindCameraUseCases(cameraProvider)
                 }
-            val screenAspectRatio = aspectRatio()
-            val imageAnalyzer = ImageAnalysis.Builder()
-                .setTargetAspectRatio(screenAspectRatio)
-                .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
-                .setTargetRotation(Surface.ROTATION_0).build()
-            imageAnalyzer.setAnalyzer(
-                Executors.newSingleThreadExecutor(),
-                CameraAnalyzer { byteArray, width, height ->
-                    if (autoTorch) {
-                        val pixels = byteArray.map { it.toInt() and 0xFF }
-                        if (pixels.average() < MIN_LUMEN_FLASH_TRIGGER) {
-                            runOnUiThread {
-                                if (!isTorchOn) {
-                                    camera?.cameraControl?.enableTorch(true)
-                                    isTorchOn = true
-                                }
+            }
+        }
+    }
+
+    private fun bindCameraUseCases(cameraProvider: ProcessCameraProvider) {
+        val preview = Preview.Builder()
+            .build()
+            .also {
+                it.setSurfaceProvider(viewBinding.cameraPreview.surfaceProvider)
+            }
+        val screenAspectRatio = aspectRatio()
+        val imageAnalyzer = ImageAnalysis.Builder()
+            .setTargetAspectRatio(screenAspectRatio)
+            .setTargetRotation(Surface.ROTATION_0).build()
+        imageAnalyzer.setAnalyzer(
+            Executors.newSingleThreadExecutor(),
+            CameraAnalyzer { byteArray, width, height ->
+                if (autoTorch) {
+                    val pixels = byteArray.map { it.toInt() and 0xFF }
+                    if (pixels.average() < MIN_LUMEN_FLASH_TRIGGER) {
+                        runOnUiThread {
+                            if (!isTorchOn) {
+                                camera?.cameraControl?.enableTorch(true)
+                                isTorchOn = true
                             }
                         }
                     }
-                    //Integration with Lens SDK
-                    if (viewBinding.cameraPreview.visibility != View.GONE) {
-                        VeryfiLensHeadless.processCreditCard(Frame(byteArray, width, height))
-                    }
-                })
-            try {
-                cameraProvider?.unbindAll()
-                val useCaseGroup = UseCaseGroup.Builder()
-                    .addUseCase(preview)
-                    .addUseCase(imageAnalyzer)
-                    .build()
-                camera = cameraProvider?.bindToLifecycle(
-                    this,
-                    CameraSelector.DEFAULT_BACK_CAMERA,
-                    useCaseGroup
-                )
-                startAutoFocusing()
-                startFocusOnClick()
-
-            } catch (exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
-            }
-        }, ContextCompat.getMainExecutor(this))
+                }
+                //Integration with Lens SDK
+                if (viewBinding.cameraPreview.visibility != View.GONE) {
+                    VeryfiLensHeadless.processCreditCard(Frame(byteArray, width, height))
+                }
+            })
+        try {
+            cameraProvider.unbindAll()
+            val useCaseGroup = UseCaseGroup.Builder()
+                .addUseCase(preview)
+                .addUseCase(imageAnalyzer)
+                .build()
+            camera = cameraProvider.bindToLifecycle(
+                this,
+                CameraSelector.DEFAULT_BACK_CAMERA,
+                useCaseGroup
+            )
+            startAutoFocusing()
+            startFocusOnClick()
+        } catch (exc: Exception) {
+            Log.e(TAG, "Use case binding failed", exc)
+        }
     }
 
     private fun startAutoFocusing() {
@@ -236,7 +243,6 @@ class CaptureCreditCardActivity : AppCompatActivity() {
                             autoFocusPoint,
                             FocusMeteringAction.FLAG_AF
                         ).apply {
-                            //focus only when the user tap the preview
                             disableAutoCancel()
                         }.build()
                     )
@@ -291,7 +297,9 @@ class CaptureCreditCardActivity : AppCompatActivity() {
             viewBinding.contentCameraProcessing.flipImage.animate().start()
             Timer("SettingUp", false).schedule(4000) {
                 VeryfiLensHeadless.reset()
-                viewBinding.contentCameraProcessing.flipImage.visibility = View.INVISIBLE
+                runOnUiThread {
+                    viewBinding.contentCameraProcessing.flipImage.visibility = View.GONE
+                }
             }
         }
     }
@@ -299,6 +307,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
     private fun requiredCardDataCompleted(): Boolean {
         cardData.apply {
             return (cardNumber.isNotEmpty()
+                    && cardType.isNotEmpty()
                     && validateCardName()
                     && validateCardDate()
                     && validateCardCode())
@@ -354,32 +363,32 @@ class CaptureCreditCardActivity : AppCompatActivity() {
 
     private fun getCardData(data: JSONObject): CardData {
         return CardData(
-            data.getString("card_number"),
-            data.getJSONArray("card_dates")[0].toString(),
-            data.getString("card_name"),
-            data.getString("card_type"),
-            data.getString("card_cvc")
+            try { data.getString("card_number") } catch(e: Exception) { "" },
+            try { data.getJSONArray("card_dates")[0].toString() } catch(e: Exception) { "" },
+            try { data.getString("card_name") } catch(e: Exception) { "" },
+            try { data.getString("card_type") } catch(e: Exception) { "" },
+            try { data.getString("card_cvc") } catch(e: Exception) { "" }
         )
     }
 
     private fun updateCardData(data: JSONObject) {
         if (cardData.cardNumber.isEmpty()) {
-            cardData.cardNumber = data.getString("card_number")
+            cardData.cardNumber = try { data.getString("card_number") } catch(e: Exception) { "" }
             VeryfiLensHelper.settings.creditCardDetectCardNumber = cardData.cardNumber.isEmpty()
         }
         if (cardData.cardExpDate.isEmpty()) {
-            cardData.cardExpDate = data.getJSONArray("card_dates")[0].toString()
+            cardData.cardExpDate =try { data.getJSONArray("card_dates")[0].toString() } catch(e: Exception) { "" }
             VeryfiLensHelper.settings.creditCardDetectCardDate = cardData.cardExpDate.isEmpty()
         }
         if (cardData.cardName.isEmpty()) {
-            cardData.cardName = data.getString("card_name")
+            cardData.cardName = try { data.getString("card_name") } catch(e: Exception) { "" }
             VeryfiLensHelper.settings.creditCardDetectCardHolderName = cardData.cardName.isEmpty()
         }
         if (cardData.cardType.isEmpty()) {
-            cardData.cardType = data.getString("card_type")
+            cardData.cardType = try { data.getString("card_type") } catch(e: Exception) { "" }
         }
         if (cardData.cardCvc.isEmpty()) {
-            cardData.cardCvc = data.getString("card_cvc")
+            cardData.cardCvc = try { data.getString("card_cvc") } catch(e: Exception) { "" }
             VeryfiLensHelper.settings.creditCardDetectCardCVC = cardData.cardCvc.isEmpty()
         }
     }
