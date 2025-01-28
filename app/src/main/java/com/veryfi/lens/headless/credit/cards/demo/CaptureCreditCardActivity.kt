@@ -68,6 +68,7 @@ class CaptureCreditCardActivity : AppCompatActivity() {
         veryfiLensSettings.creditCardDetectCardCVC = cardCvcOn
         veryfiLensSettings.creditCardAutoCaptureMode =
             VeryfiLensSettings.CreditCardAutoCaptureMode.Normal //Speed vs Accuracy
+        veryfiLensSettings.ignoreRemoteSettings = true
         veryfiLensHeadlessCredentials.apiKey = AUTH_API_KEY
         veryfiLensHeadlessCredentials.username = AUTH_USERNAME
         veryfiLensHeadlessCredentials.clientId = CLIENT_ID
