@@ -83,7 +83,7 @@ android {
 
 dependencies {
     // Veryfi Lens
-    implementation 'com.veryfi.lens.headless:credit-cards-sdk:2.1.0.54'
+    implementation 'com.veryfi.lens.headless:credit-cards-sdk:2.1.0.56'
 
     implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.appcompat:appcompat:1.7.0'
