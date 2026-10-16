@@ -3,7 +3,10 @@ package com.veryfi.lens.headless.credit.cards.demo.helpers
 import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
+import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.veryfi.lens.headless.credit.cards.demo.R
 
 
@@ -43,5 +46,43 @@ object ThemeHelper {
                 window.statusBarColor = ContextCompat.getColor(it, color)
             }
         }
+    }
+
+    fun applyEdgeToEdgeInsets(root: View, topTarget: View = root, bottomTarget: View = root) {
+        val rootLeft = root.paddingLeft
+        val rootTop = root.paddingTop
+        val rootRight = root.paddingRight
+        val rootBottom = root.paddingBottom
+        val topInitial = topTarget.paddingTop
+        val bottomInitial = bottomTarget.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(root) { _, windowInsets ->
+            val bars = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            if (topTarget === root && bottomTarget === root) {
+                root.setPadding(
+                    rootLeft + bars.left,
+                    rootTop + bars.top,
+                    rootRight + bars.right,
+                    rootBottom + bars.bottom
+                )
+            } else {
+                root.setPadding(rootLeft + bars.left, rootTop, rootRight + bars.right, rootBottom)
+                topTarget.setPadding(
+                    topTarget.paddingLeft,
+                    topInitial + bars.top,
+                    topTarget.paddingRight,
+                    topTarget.paddingBottom
+                )
+                bottomTarget.setPadding(
+                    bottomTarget.paddingLeft,
+                    bottomTarget.paddingTop,
+                    bottomTarget.paddingRight,
+                    bottomInitial + bars.bottom
+                )
+            }
+            WindowInsetsCompat.CONSUMED
+        }
+        ViewCompat.requestApplyInsets(root)
     }
 }

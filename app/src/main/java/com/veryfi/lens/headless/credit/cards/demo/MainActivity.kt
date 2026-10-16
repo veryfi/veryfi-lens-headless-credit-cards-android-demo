@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import com.veryfi.lens.headless.credit.cards.demo.databinding.ActivityMainBinding
 import com.veryfi.lens.headless.credit.cards.demo.helpers.ThemeHelper
 
@@ -22,8 +23,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        ThemeHelper.applyEdgeToEdgeInsets(viewBinding.root)
         ThemeHelper.setBackgroundColorToStatusBar(this, this)
         setUpClickEvents()
     }
