@@ -39,7 +39,7 @@ package manager for Java.
 Add in your project build.gradle file the Veryfi Lens Headless Credit Cards android SDK dependency:
 ```ruby
 dependencies {
-    implementation 'com.veryfi.lens.headless:credit-cards-sdk:2.7.0.9'
+    implementation 'com.veryfi.lens.headless:credit-cards-sdk:2.7.0.10'
 }
 ```
 
